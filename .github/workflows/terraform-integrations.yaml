@@ -18,7 +18,7 @@ permissions:
 jobs:
   configuration:
     name: Configuration
-    uses: n3tuk/workflows-reusable-terraform/.github/workflows/terraform-checks.yaml@v1.1
+    uses: n3tuk/workflows-reusable-terraform/.github/workflows/terraform-checks.yaml@v1.2
     secrets: inherit
     with:
       working-directory: terraform

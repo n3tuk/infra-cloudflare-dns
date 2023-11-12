@@ -9,7 +9,7 @@ tasks:
       - task: validate
       - task: docs
       - task: lint
-      - task: snyk
+      - task: security
 
   pre-checks:
     desc: Check the environment before running
@@ -30,8 +30,8 @@ tasks:
           test -x "$(which tflint 2>/dev/null)" \
             || (echo "Cannot find 'tflint'. Please install before trying again."; exit 1)
       - cmd: |-
-          test -x "$(which snyk 2>/dev/null)" \
-            || (echo "Cannot find 'snyk'. Please install before trying again."; exit 1)
+          test -x "$(which trivy 2>/dev/null)" \
+            || (echo "Cannot find 'trivy'. Please install before trying again."; exit 1)
     status:
       # Setting this file will bypass pre-checks (only use if you are sure)
       - test -f ../.skip-pre-checks
@@ -121,24 +121,18 @@ tasks:
       - cmd: tflint --config ../.tflint.hcl --color --init
       - cmd: tflint --config ../.tflint.hcl --color
 
-  snyk:
-    desc: Statically analyise the Terraform Configuration
+  security:
+    desc: Statically analyise the Terraform configuration
     summary: |
-      Run static analysis across the Terraform Configuration using snyk to find
+      Run static analysis across the Terraform Configuration using trivy to find
       any bad configurations or potential security issues.
     deps:
       - task: pre-checks
     sources:
+      - "../.trivy.yaml"
       - "*.tf"
-      - "../.snyk"
     cmds:
-      - cmd: |-
-          snyk iac test \
-            --detection-depth=1 \
-            --org="n3tuk" \
-            --target-name="{{ .SNYK_TARGET_NAME }}" \
-            --target-reference="{{ .SNYK_TARGET_REF }}" \
-            --policy-path=../.snyk
+      - cmd: trivy --config ../.trivy.yaml fs .
 
   clean:
     desc: Remove all temporary files from this configuration
