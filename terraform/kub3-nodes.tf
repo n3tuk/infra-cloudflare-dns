@@ -56,14 +56,6 @@ resource "cloudflare_record" "kub3uk_nodes_a" {
   value   = each.value.ipv4
   proxied = false
   ttl     = 300
-
-  tags = [
-    "name:${each.key}",
-    "node:${each.value.name}",
-    "environment:${each.value.environment}",
-    "region:${each.value.region}",
-    "system:kub3",
-  ]
 }
 
 resource "cloudflare_record" "kub3uk_nodes_aaaa" {
@@ -79,12 +71,4 @@ resource "cloudflare_record" "kub3uk_nodes_aaaa" {
   value   = each.value.ipv6
   proxied = false
   ttl     = 300
-
-  tags = [
-    "name:${each.key}",
-    "node:${each.value.name}",
-    "environment:${each.value.environment}",
-    "region:${each.value.region}",
-    "system:kub3",
-  ]
 }
