@@ -1,0 +1,149 @@
+---
+version: 3
+output: prefixed
+
+tasks:
+  default:
+    desc: Run the standard validation check and documentation generation
+    cmds:
+      - task: validate
+      - task: docs
+      - task: lint
+      - task: snyk
+
+  pre-checks:
+    desc: Check the environment before running
+    internal: true
+    silent: true
+    run: once
+    cmds:
+      - cmd: |-
+          test -x "$(which terraform 2>/dev/null)" \
+            || (echo "Cannot find 'terraform'. Please install before trying again."; exit 1)
+      - cmd: |-
+          test -x "$(which terraform-docs 2>/dev/null)" \
+            || (echo "Cannot find 'terraform-docs'. Please install before trying again."; exit 1)
+      - cmd: |-
+          test -n "$(which markdownlint 2>/dev/null)" \
+            || (echo "Cannot find 'markdownlint'. Please install before trying again."; exit 1)
+      - cmd: |-
+          test -x "$(which tflint 2>/dev/null)" \
+            || (echo "Cannot find 'tflint'. Please install before trying again."; exit 1)
+      - cmd: |-
+          test -x "$(which snyk 2>/dev/null)" \
+            || (echo "Cannot find 'snyk'. Please install before trying again."; exit 1)
+    status:
+      # Setting this file will bypass pre-checks (only use if you are sure)
+      - test -f ../.skip-pre-checks
+
+  docs:
+    desc: Update the README.md file for this Terraform configuration
+    summary: |
+      Update the README.md files for this Terraform configuration using
+      terraform-docs to ensure that the documentation is up-to-date.
+    deps:
+      - task: pre-checks
+    sources:
+      - "*.tf"
+      - "../.terraform-docs.yaml"
+      - "../.markdownlint.yaml"
+    cmds:
+      - cmd: terraform-docs --config ../.terraform-docs.yaml .
+      - cmd: markdownlint --config ../.markdownlint.yaml *.md
+    generates:
+      - "README.md"
+
+  fmt:
+    desc: Reformat the syntax of the Terraform configuration using terraform
+    summary: |
+      Reformat the Terraform configuration using terraform.
+    deps:
+      - task: pre-checks
+    sources:
+      - "*.tf"
+    cmds:
+      - cmd: terraform fmt -write=true
+
+  init:
+    desc: Initilise the Terraform configuration for testing
+    summary: |
+      Initilise the Terraform configuration and pull down the latest Providers
+      and sub-modules, as defined in the configuration.
+    internal: true
+    run: once
+    sources:
+      - "*.tf"
+    cmds:
+      - cmd: terraform init -upgrade=true -get=true -backend=false
+      - task: lock
+    generates:
+      - .terraform.lock.hcl
+      - .terraform/environment
+      - .terraform/terraform.tfstate
+
+  lock:
+    desc: Lock the Terraform Providers used in this Terraform configuration
+    summary: |
+      Lock the Terraform Providers for this configuration so that checksums are
+      included for both macOS (Intel and Apple Silicon) and Linux (Intel),
+      allowing them to be run locally and in Terraform Cloud.
+    run: once
+    cmds:
+      - cmd: |-
+          terraform providers lock \
+            -platform=darwin_amd64 \
+            -platform=darwin_arm64 \
+            -platform=linux_amd64
+
+  validate:
+    desc: Validate the Terraform configuration
+    summary: |
+      Check the validate the Terraform configuration using terraform.
+    deps:
+      - task: init
+      - task: fmt
+    sources:
+      - "*.tf"
+    cmds:
+      - cmd: terraform validate
+
+  lint:
+    desc: Run initial validation of the run-time configuration
+    summary: |
+      Run linting checks against the configuration to check run-time values,
+      such as instance types and naming.
+    deps:
+      - task: validate
+    sources:
+      - "../.tflint.hcl"
+      - "*.tf"
+    cmds:
+      - cmd: tflint --config ../.tflint.hcl --color --init
+      - cmd: tflint --config ../.tflint.hcl --color
+
+  snyk:
+    desc: Statically analyise the Terraform Configuration
+    summary: |
+      Run static analysis across the Terraform Configuration using snyk to find
+      any bad configurations or potential security issues.
+    deps:
+      - task: pre-checks
+    sources:
+      - "*.tf"
+      - "../.snyk"
+    cmds:
+      - cmd: |-
+          snyk iac test \
+            --detection-depth=1 \
+            --org="n3tuk" \
+            --target-name="{{ .SNYK_TARGET_NAME }}" \
+            --target-reference="{{ .SNYK_TARGET_REF }}" \
+            --policy-path=../.snyk
+
+  clean:
+    desc: Remove all temporary files from this configuration
+    summary: |
+      Run commands to clean out all temporary files and cached resources from
+      this configuration.
+    cmds:
+      - cmd: rm -rf .terraform

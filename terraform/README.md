@@ -10,12 +10,31 @@ the high-level records and resources for the management of the DNS for the
 [cloudflare]: https://www.cloudflare.com/
 [spacelift]: https://spacelift.io/
 
-## Workspace
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-The [`terraform/`][workspace] workspace hosts the configuration for the
-management and deployment of Cloudflare DNS resources. The [`README.md`][readme]
-therein for further information on supported `variables` and `outputs`, as well
-as the what is managed by the workspace.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.5, < 1.6.0 |
+| <a name="requirement_local"></a> [local](#requirement\_local) | ~> 4.18.0 |
 
-[workspace]: https://github.com/n3tuk/infra-cloudflare-dns/tree/main/terraform/
-[readme]: https://github.com/n3tuk/infra-cloudflare-dns/blob/main/terraform/README.md
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
