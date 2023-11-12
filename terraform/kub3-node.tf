@@ -3,42 +3,42 @@ locals {
     { name        = "node-01"
       environment = "production"
       region      = "cym-south-1"
-      ipv4        = "172.23.32.1"
-    },
-    { name        = "node-02"
-      environment = "production"
-      region      = "cym-south-1"
       ipv4        = "172.23.32.2"
     },
-    { name        = "node-03"
+    { name        = "node-02"
       environment = "production"
       region      = "cym-south-1"
       ipv4        = "172.23.32.3"
     },
-    { name        = "node-04"
+    { name        = "node-03"
       environment = "production"
       region      = "cym-south-1"
       ipv4        = "172.23.32.4"
     },
-    { name        = "node-05"
+    { name        = "node-04"
       environment = "production"
       region      = "cym-south-1"
       ipv4        = "172.23.32.5"
     },
-    { name        = "node-06"
+    { name        = "node-05"
       environment = "production"
       region      = "cym-south-1"
       ipv4        = "172.23.32.6"
     },
+    { name        = "node-06"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.32.7"
+    },
     { name        = "node-01"
       environment = "development"
       region      = "cym-south-1"
-      ipv4        = "172.23.32.7"
+      ipv4        = "172.23.32.8"
     },
     { name        = "node-02"
       environment = "development"
       region      = "cym-south-1"
-      ipv4        = "172.23.32.8"
+      ipv4        = "172.23.32.9"
     },
   ]
 }
