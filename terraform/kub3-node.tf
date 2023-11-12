@@ -4,11 +4,13 @@ locals {
       environment = "production"
       region      = "cym-south-1"
       ipv4        = "172.23.32.2"
+      ipv6        = "2a00:8010:8006:3a32:4a21:bff:fe55:f359"
     },
     { name        = "node-02"
       environment = "production"
       region      = "cym-south-1"
       ipv4        = "172.23.32.3"
+      ipv6        = "2a00:8010:8006:3a32:4a21:bff:fe55:450"
     },
     { name        = "node-03"
       environment = "production"
