@@ -43,7 +43,7 @@ locals {
   ]
 }
 
-resource "cloudflare_record" "kub3uk_nodes_a" {
+resource "cloudflare_record" "kub3uk_node_a" {
   for_each = {
     for n in local.kub3_nodes : "${n.name}.${substr(n.environment, 0, 1)}.${n.region}" => n
     if lookup(n, "ipv4", "") != ""
@@ -58,7 +58,7 @@ resource "cloudflare_record" "kub3uk_nodes_a" {
   ttl     = 300
 }
 
-resource "cloudflare_record" "kub3uk_nodes_aaaa" {
+resource "cloudflare_record" "kub3uk_node_aaaa" {
   for_each = {
     for n in local.kub3_nodes : "${n.name}.${substr(n.environment, 0, 1)}.${n.region}" => n
     if lookup(n, "ipv6", "") != ""
