@@ -1,0 +1,24 @@
+---
+name: Terraform Integrations
+
+on:
+  workflow_call:
+    # No inputs are required, as all information about the event will be pulled
+    # in from the context of the event itself
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  checks: write
+  pull-requests: write
+
+jobs:
+  configuration:
+    name: Configuration
+    uses: n3tuk/workflow-reusable-terraform/.github/workflows/terraform-checks.yaml@v1.1.0
+    secrets: inherit
+    with:
+      working-directory: terraform
+      type: configuration
+      name: Configuration
