@@ -3,16 +3,6 @@ version: 3
 output: prefixed
 interval: 1000ms
 
-vars:
-  SNYK_TARGET_NAME:
-    sh: |
-      git config --get remote.origin.url \
-        | sed \
-            -e 's/^\(.*github.com[:\/]\)//g' \
-            -e 's/\.git$//g'
-  SNYK_TARGET_REF:
-    sh: git branch --show-current || echo 'unknown'
-
 includes:
   configuration:
     taskfile: .taskfiles/configuration.yaml
@@ -31,7 +21,7 @@ tasks:
       - task: validate
       - task: docs
       - task: lint
-      - task: snyk
+      - task: security
 
   run:
     desc: Run the all the tasks
@@ -45,7 +35,7 @@ tasks:
       - task: validate
       - task: docs
       - task: lint
-      - task: snyk
+      - task: security
 
   pre-checks:
     desc: Check the environment before running
@@ -105,13 +95,13 @@ tasks:
     cmds:
       - task: configuration:lint
 
-  snyk:
-    desc: Run static analysis using Snyk
+  security:
+    desc: Run static analysis against Terraform
     summary: |
-      Run static analysis across the Terraform Module using snyk Infrastructure
-      as Code to find any bad configurations or potential security issues.
+      Run static analysis across the Terraform workspace to find any bad
+      configurations or potential security issues.
     cmds:
-      - task: configuration:snyk
+      - task: configuration:security
 
   clean:
     desc: Clean temporary files from the repository
