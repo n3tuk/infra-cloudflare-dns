@@ -42,8 +42,8 @@ locals {
       ipv4        = "172.23.32.8"
       ipv6        = "2a02:8010:8006:3a32:4a21:bff:fe55:ed14"
     },
-    { name        = "node-02"
-      environment = "development"
+    { name        = "node-01"
+      environment = "services"
       region      = "cym-south-1"
       ipv4        = "172.23.32.9"
       ipv6        = "2a02:8010:8006:3a32:4a21:bff:fe56:446"
