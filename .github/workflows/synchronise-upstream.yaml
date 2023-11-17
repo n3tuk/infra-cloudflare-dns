@@ -22,7 +22,7 @@ jobs:
       SYNCHRONISER_TOKEN: ${{ secrets.SYNCHRONISER_TOKEN || secrets.GITHUB_TOKEN } }
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ env.SYNCHRONISER_TOKEN }}
 
