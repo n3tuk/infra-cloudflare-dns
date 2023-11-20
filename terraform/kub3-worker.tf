@@ -60,6 +60,36 @@ locals {
       region      = "cym-south-1"
       ipv4        = "172.23.44.13"
     },
+    { name        = "worker-13"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.40.14"
+    },
+    { name        = "worker-14"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.42.14"
+    },
+    { name        = "worker-15"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.44.14"
+    },
+    { name        = "worker-16"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.40.15"
+    },
+    { name        = "worker-17"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.42.15"
+    },
+    { name        = "worker-18"
+      environment = "production"
+      region      = "cym-south-1"
+      ipv4        = "172.23.44.15"
+    },
     { name        = "worker-01"
       environment = "development"
       region      = "cym-south-1"
