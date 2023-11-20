@@ -30,5 +30,10 @@ locals {
       region      = "cym-south-1"
       ipv4        = "172.23.54.4"
     },
+    { name        = "vault-01"
+      environment = "services"
+      region      = "cym-south-1"
+      ipv4        = "172.23.31.4"
+    },
   ]
 }
