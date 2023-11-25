@@ -39,6 +39,11 @@ locals {
       environment = "development"
       region      = "cym-south-1"
       ipv4        = "172.23.52.8"
+    },
+    { name        = "storage-03"
+      environment = "development"
+      region      = "cym-south-1"
+      ipv4        = "172.23.54.8"
     }
   ]
 }
