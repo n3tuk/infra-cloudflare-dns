@@ -1,5 +1,6 @@
 locals {
   kub3 = flatten([
+    local.kub3_minikube,
     local.kub3_services,
     local.kub3_haproxy,
     local.kub3_boundary,
