@@ -1,6 +1,6 @@
 locals {
   kub3_minikube = [
-    { name        = "minikube-01"
+    { name        = "testing-01"
       environment = "testing"
       region      = "cym-south-1"
       ipv4        = "172.23.39.2"
