@@ -10,7 +10,7 @@ locals {
       environment = "testing"
       region      = "cym-south-1"
       ipv4        = "172.23.39.3"
-      ipv6        = "2a02:8010:8006:3a39:bb:79ff:fe09:18a7"
+      ipv6        = "2a02:8010:8006:3a39:1e:a3ff:fef7:def2"
     },
   ]
 }
